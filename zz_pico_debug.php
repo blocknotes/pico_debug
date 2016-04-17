@@ -11,7 +11,7 @@
 class zz_pico_debug extends AbstractPicoPlugin
 {
   // protected $dependsOn = array();
-  protected $enabled = true;
+  protected $enabled = false;
   protected $debug_info = [];
 
   // Triggered after Pico has loaded all available plugins

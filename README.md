@@ -4,17 +4,21 @@ A debugging tool for Pico CMS
 
 ## INSTALL
 
-Copy zz_pico_debug.php in plugins folder
+- Copy zz_pico_debug.php in plugins folder
+
+- Enable the plugin - edit config.php and add the line:
+
+    $config['zz_pico_debug.enabled'] = TRUE;
+
+- (optionally) To enable PHP show errors add to config.php:
+
+    $config['zz_pico_debug']['php_errors'] = TRUE;
 
 ## USAGE
 
 Open your Pico site, you should see a box on the bottom showing debugging informations.
 
-## OPTIONS
-
-To enable PHP show errors config add to config.php:
-
-    $config['zz_pico_debug']['php_errors'] = TRUE;
+It also enable Twig debug option, so in a template you can use: `{{ dump( var_name ) }}`
 
 ## NOTES
 
