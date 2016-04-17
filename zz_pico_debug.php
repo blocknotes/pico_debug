@@ -5,7 +5,7 @@
  * @author  Mattia Roccoberton
  * @link    http://blocknot.es
  * @license http://opensource.org/licenses/MIT
- * @version 0.1.2
+ * @version 0.1.4
  */
 
 class zz_pico_debug extends AbstractPicoPlugin
@@ -29,7 +29,8 @@ class zz_pico_debug extends AbstractPicoPlugin
       ini_set( "display_errors", 1 );
     }
     $config['twig_config']['debug'] = TRUE;   // enable Twig function: dump()
-    $this->debug_info['onConfigLoaded'] = 'config = ' . implode( ', ', array_keys( $config ) );
+    $this->debug_info['onConfigLoaded'] = 'config = ';
+    foreach( $config as $key => $value ) $this->debug_info['onConfigLoaded'] .= $key . ': ' . ( ( is_bool( $value ) || is_numeric( $value ) || ( is_string( $value ) && strlen( $value ) < 100 ) ) ? "<b>$value</b>" : gettype( $value ) ) . ', ';
   }
 
   // Triggered after Pico has evaluated the request URL
@@ -142,7 +143,9 @@ class zz_pico_debug extends AbstractPicoPlugin
   public function onPageRendering( Twig_Environment &$twig, array &$twigVariables, &$templateName )
   {
     $this->debug_info['onPageRendering']  = 'twig = ' . get_class( $twig );
-    $this->debug_info['onPageRendering'] .= ' - twigVariables = ' . implode( ', ', array_keys( $twigVariables ) );
+    // $this->debug_info['onPageRendering'] .= ' - twigVariables = ' . implode( ', ', array_keys( $twigVariables ) );
+    $this->debug_info['onPageRendering'] .= ' - twigVariables = ';
+    foreach( $twigVariables as $key => $value ) $this->debug_info['onPageRendering'] .= $key . ': ' . ( ( is_bool( $value ) || is_numeric( $value ) || ( is_string( $value ) && strlen( $value ) < 100 ) ) ? "<b>$value</b>" : gettype( $value ) ) . ', ';
     $this->debug_info['onPageRendering'] .= ' - templageName = ' . var_export( $templateName, TRUE );
   }
 
@@ -150,10 +153,10 @@ class zz_pico_debug extends AbstractPicoPlugin
   public function onPageRendered( &$output )
   {
     $this->debug_info['onPageRendered'] = 'output (len): ' .  strlen( $output );
-    $debug  = '<div style="background: rgba( 255, 204, 22, 0.7 ); border: 1px solid red; color: #222; position: fixed; bottom: 0; font-size: 12px; margin: 10px 0 0 0; overflow-y: scroll; padding: 5px; width: 100%; height: 25%; z-index: 99999;"><table style="width: 100%">';
-    foreach( $this->debug_info as $key => $value ) $debug .= '<tr><td style="border-bottom: 1px dashed #d50"><b>' . $key . '</b></td><td style="border-bottom: 1px dashed #d50">' . $value . "</td></tr>\n";
+    $debug  = '<div style="background: rgba( 255, 204, 22, 0.8 ); border: 1px solid red; color: #222; position: fixed; bottom: 0; font-size: 12px; margin: 0; overflow-y: scroll; padding: 5px; width: 100%; height: 25%; z-index: 99999;"><table style="width: 100%">';
+    foreach( $this->debug_info as $key => $value ) $debug .= '<tr><td style="border-bottom: 1px dashed #d50"><i>' . $key . '</i>&nbsp;&nbsp;</td><td style="border-bottom: 1px dashed #d50">' . $value . "</td></tr>\n";
     $debug .= "</table></div>\n";
-    // $debug  = '<div style="background: rgba( 255, 204, 22, 0.7 ); border: 1px dotted red; color: #222; position: fixed; bottom: 0; font-size: 12px; font-family: \'Consolas\', monospace; margin: 10px 0 0 0; overflow-y: scroll; padding: 5px; width: 100%; height: 25%; z-index: 99999;">';
+    // $debug  = '<div style="background: rgba( 255, 204, 22, 0.8 ); border: 1px dotted red; color: #222; position: fixed; bottom: 0; font-size: 12px; font-family: \'Consolas\', monospace; margin: 10px 0 0 0; overflow-y: scroll; padding: 5px; width: 100%; height: 25%; z-index: 99999;">';
     // foreach( $this->debug_info as $key => $value ) $debug .= '[' . $key . ']&nbsp; ' . $value . "<br/>\n";
     // $debug .= "</div>\n";
     $output = substr_replace( $output, $debug, strpos( $output, '</body>' ), 0 );
