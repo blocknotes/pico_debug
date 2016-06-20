@@ -115,7 +115,7 @@ class zz_pico_debug extends AbstractPicoPlugin
   public function onSinglePageLoaded( array &$pageData )
   {
     $data = new ArrayObject( $pageData );
-    $data['content'] = 'length: ' .  strlen( $pageData['content'] );
+    $data['content'] = 'length: ' . ( isset( $pageData['content'] ) ? strlen( $pageData['content'] ) : '-' );
     $data['raw_content'] = 'length: ' .  strlen( $pageData['raw_content'] );
     $this->debug_info['onSinglePageLoaded'] = 'pageData = ' . var_export( $data->getArrayCopy(), TRUE );
   }

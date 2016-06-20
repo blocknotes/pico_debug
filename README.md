@@ -1,3 +1,12 @@
+# PROJECT UNMAINTAINED
+
+> *This project is not maintained anymore*
+>
+> *If you like it or continue to use it fork it please.*
+
+---
+---
+
 # pico_debug
 
 A debugging tool for Pico CMS. It can help plugin & theme developers to see Pico variables.
@@ -19,3 +28,7 @@ It also enable Twig debug option, so in a template you can use: `{{ dump( var_na
 ## NOTES
 
 - Why 'zz_' in the beginning of the filename? It's necessary to let Pico load the plugin in the end
+
+---
+
+My website: <https://blocknot.es/>
